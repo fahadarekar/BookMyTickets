@@ -1,0 +1,9 @@
+.navv {
+    position: relative;
+    top: 0; /* Sticks the navbar to the top of the page */
+    width: 100%; /* Makes the navbar span the full width of the viewport */
+    z-index: 1000; /* Ensures the navbar stays above other content */
+    background-color: #eff1f5; /* Ensure the background color matches the navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height : 20px; /* Optional: adds a subtle shadow for better visual distinction */
+}
