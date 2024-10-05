@@ -1,35 +1,44 @@
 import React from 'react';
 import '../styles/MovieCard.css';
 import { useNavigate } from 'react-router-dom';
+import { fetchMovieBooked } from '../api'; // Import the API function
 
-const MovieCard = ({ Poster, Year, Title, imdbID, toggleWishlist, isWishlisted }) => {
+const MovieCard = ({ Poster, Year, Title, toggleWishlist, isWishlisted }) => {
     const navigate = useNavigate();
 
-    const handleBookClick = () => {
-        navigate('/booking', { state: { movie: { Poster, Year, Title, imdbID} } });
+    const handleBookClick = async () => {
+        try {
+            // Fetch the detailed movie data
+            const movieDetails = await fetchMovieBooked(Title);
+            // Navigate to the booking page with the fetched movie details
+            navigate('/booking', { state: { movie: movieDetails } });
+        } catch (error) {
+            console.error('Failed to fetch movie details:', error);
+        }
     };
 
     return (
-        <div className="col">
-            <div className="card bg-dark" style={{ borderRadius: '1.5rem', boxShadow: '10px 10px 25px black' }}>
+
+        <div className="col" >
+            <div className="card bg-dark" style={{ borderRadius: '1.5rem', boxShadow: '10px 10px 25px black', height : '60%', width : '100%' }}>
                 <img
-                    className="bd-placeholder-img"
+                    className="bd-placeholder-img "
                     style={{ borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem' }}
                     width="100%"
-                    height="300px"
+                    height="350px"
                     src={Poster}
                     alt={Title}
                     preserveAspectRatio="xMidYMid slice"
                     focusable="false"
                 />
-                <div className="card-body" style={{ backgroundColor: '#55595' }}>
+                <div className="card-body cardBg" style={{  borderBottomLeftRadius : '1.5rem', borderBottomRightRadius : '1.5rem',  boxShadow: '10px 10px 25px black' }}>
                     <p className="card-text text-light">{Title}</p>
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
                             <button
                                 type="button"
                                 className="btn btn-sm btn-outline-primary"
-                                onClick={handleBookClick}
+                                onClick={handleBookClick} // Call the new function on button click
                             >
                                 Book Now
                             </button>
@@ -52,3 +61,5 @@ const MovieCard = ({ Poster, Year, Title, imdbID, toggleWishlist, isWishlisted }
 };
 
 export default MovieCard;
+
+{/**/ }

@@ -35,7 +35,7 @@ const BookingModal = () => {
 
     return (
         <div>
-            <div className="booking-page">
+            <div className="booking-page ">
 
 
                 <div className="showtimes">

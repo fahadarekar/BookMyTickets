@@ -34,10 +34,10 @@ const App = () => {
                 <Route path="/wishlist" element={<Wishlist wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
                 <Route path="/loginform" element={<LoginForm />} />
                 <Route path="/booking" element={<Book />} />
-                <Route path = "/latest" element = {<Feature toggleWishlist = {toggleWishlist}/>}></Route>
+                <Route path = "/latest" element = {<Feature toggleWishlist = {toggleWishlist} wishlist = {wishlist}/> }></Route>
                 <Route path = "/dashboard" element = {<Dashboard />}></Route>
 
-            </Routes>
+            </Routes>   
             <Footer />
         </>
     );

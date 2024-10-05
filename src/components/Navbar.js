@@ -41,7 +41,7 @@ const Navbar = ({ setMovies }) => {
                                     <li><NavLink to="/wishlist" className="dropdown-item">Wishlist</NavLink></li>
                                     <li><NavLink to="/booking" className="dropdown-item">Booking</NavLink></li>
                                     <li><span className="dropdown-divider" /></li>
-                                    <li><NavLink to = "/latest" className="dropdown-item">Latest Releases</NavLink></li>
+                                    <li><NavLink to = "/latest" className="dropdown-item">Search by ImdbID</NavLink></li>
                                 </ul>
                             </li>
                             <li className="nav-item px-1 fs-4">

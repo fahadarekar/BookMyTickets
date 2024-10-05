@@ -1,10 +1,17 @@
 .booking-page {
     padding: 10px;
-    max-width: 800px;
+    max-width: 80%;
     margin: 0 auto;
-    background-color: #b2c3e7;
+    background-color: #6c8194;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.movieDetails{
+    backdrop-filter: blur(10px);
+    color : rgb(161, 161, 161) ;
+    border-radius: 15px ;
+    border-color: black;
+    border: #28a745;
 }
 
 .booking-title {
@@ -37,10 +44,11 @@
 .seat {
     padding: 10px 20px;
     background-color: #fcd3d3;
-    border: 1px solid #fcd3d3;
+    border: 1px solid #7a7a7a;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
+    box-shadow: #7a7a7a;
 }
 
 .showtime-button.selected,
@@ -51,14 +59,14 @@
 
 .showtime-button:hover,
 .seat:hover {
-    background-color: #f3bfbf;
+    background-color: #ffa4a4;
 }
 
 .booking-button {
     display: block;
     width: 100%;
-    padding: 15px;
-    background-color: #28a745;
+    padding: 10px;
+    background-color: #00d832;
     color: white;
     border: none;
     border-radius: 4px;
