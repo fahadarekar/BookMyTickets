@@ -1,10 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Nav } from 'react-bootstrap';
 
 const Navbar = ({ setMovies }) => {
     const [searchMovie, setSearchMovie] = useState('');
+    const navigate = useNavigate();
+
 
     const SearchMovie = async (title) => {
         const response = await fetch(`https://www.omdbapi.com/?s=${title}&apikey=7fd055a6`);
@@ -16,6 +18,15 @@ const Navbar = ({ setMovies }) => {
     useEffect(() => {
         SearchMovie('batman');
     }, [])
+
+
+    const handleLogout = () => {
+        // Clear the JWT token from cookies
+        document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        
+        // Redirect to the login page after logout
+        navigate('/LoginForm');
+    };
 
     return (
         <div className="navv">
@@ -68,11 +79,22 @@ const Navbar = ({ setMovies }) => {
                             </li>
                         </ul>
                         <div>
-                            <div className="btn-group">
-                                <NavLink to="/LoginForm"><button className="btn btn-danger p-2 m-1">Login</button></NavLink>
-                                <NavLink to="/SignUp"><button className="btn btn-success p-2 m-1">Register</button></NavLink>
-                            </div>
+                            {document.cookie.includes('token=') ? (
+                                <NavLink to="/logout">
+                                    <button onClick = {handleLogout} className="btn btn-success p-2 m-1">Logout</button>
+                                </NavLink>
+                            ) : (
+                                <div className="btn-group">
+                                    <NavLink to="/LoginForm">
+                                        <button className="btn btn-danger p-2 m-1">Login</button>
+                                    </NavLink>
+                                    <NavLink to="/SignUp">
+                                        <button className="btn btn-success p-2 m-1">Register</button>
+                                    </NavLink>
+                                </div>
+                            )}
                         </div>
+
                     </div>
                 </div>
             </nav>
