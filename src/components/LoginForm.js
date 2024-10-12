@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/LoginForm.css';
+import SuccessModal from './SuccessModal';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
+    const [showLoading, setShowLoading] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');   
     
 
     const handleLogin = async (e) => {
@@ -21,12 +24,22 @@ const LoginForm = () => {
             // Store JWT token in cookies or localStorage
             document.cookie = `token=${response.data.token}; path=/`;
             document.cookie = `userId=${response.data.userId}; path=/`
-            navigate('/'); // Redirect to home after successful login
+            setModalTitle('Login SuccessFul');
+            setModalMessage('Your Login has been Successful');
+            setShowLoading(true);
+
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
         } catch (error) {
             console.error('Login failed:', error);
-            alert('Invalid username or password');
+            setModalTitle('Login UnsuccessFul');
+            setModalMessage('Your Login has Failed');
+            setShowLoading(true);
         }
     };
+
+    const handleCloseModal = () =>{setShowLoading(false)}
 
     return (
         <section className="vh-100 gradient-custom">
@@ -62,6 +75,13 @@ const LoginForm = () => {
                                         </div>
                                         <button className="btn btn-outline-primary btn-lg px-5" type="submit">Login</button>
                                     </form>
+
+                                    <SuccessModal
+                                        show={showLoading}
+                                        handleClose={handleCloseModal}
+                                        title={modalTitle}
+                                        message={modalMessage}
+                                    />
 
                                     <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
 

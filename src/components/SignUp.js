@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/LoginForm.css';
+import SuccessModal from './SuccessModal';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [showLoading, setShowLoading] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');  
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -17,13 +21,21 @@ const SignUp = () => {
                 email,
                 password,
             });
-            alert(response.data); // Show success message
-            navigate('/LoginForm'); // Redirect to login after successful signup
+            setModalTitle('Registration SuccessFul');
+            setModalMessage('You have Successfully registered yourself');
+            setShowLoading(true);
+            setTimeout(() => {
+                navigate('/LoginForm');
+            }, 2000);
         } catch (error) {
             console.error('Registration failed:', error);
-            alert('Registration failed. Please try again.');
+            setModalTitle('Registration Failed');
+            setModalMessage('Your Registrationhas Failed');
+            setShowLoading(true);
         }
     };
+
+    const handleCloseModal = () =>{setShowLoading(false)}
 
     return (
         <section className="vh-100 gradient-custom">
@@ -66,7 +78,17 @@ const SignUp = () => {
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 required
                                             />
+
+    
+                                        <SuccessModal
+                                            show={showLoading}
+                                            handleClose={handleCloseModal}
+                                            title={modalTitle}
+                                            message={modalMessage}
+                                        />
                                         </div>
+
+
                                         <button className="btn btn-outline-primary btn-lg px-5" type="submit">Sign Up</button>
                                     </form>
 

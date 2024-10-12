@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 import { fetchMovies } from '../api';
 
-const RelatedMovies = ({ movie }) => { // Correctly destructuring `movie` from props
+const RelatedMovies = ({ movie }) => {
     const [relatedMovies, setRelatedMovies] = useState([]);
 
     useEffect(() => {
@@ -10,8 +10,9 @@ const RelatedMovies = ({ movie }) => { // Correctly destructuring `movie` from p
             if (movie && movie.Title) {
                 console.log(`Fetching related movies for: ${movie.Title}`);
                 const movies = await fetchMovies(movie.Title);
+                console.log("movies related in line 13", movies)
                 const filteredMovies = movies.filter((m) => m.imdbID !== movie.imdbID);
-                setRelatedMovies(filteredMovies.slice(0, 4)); // Limit to 4 related movies
+                setRelatedMovies(filteredMovies.slice(0, 4));
             } else {
                 console.log('Movie object or title is undefined:', movie);
             }

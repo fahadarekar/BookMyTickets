@@ -2,10 +2,14 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Nav } from 'react-bootstrap';
+import SuccessModal from './SuccessModal';
 
 const Navbar = ({ setMovies }) => {
     const [searchMovie, setSearchMovie] = useState('');
     const navigate = useNavigate();
+    const [showLoading, setShowLoading] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');  
 
 
     const SearchMovie = async (title) => {
@@ -19,11 +23,15 @@ const Navbar = ({ setMovies }) => {
         SearchMovie('batman');
     }, [])
 
+    const handleCloseModal = () =>{setShowLoading(false)}
+
 
     const handleLogout = () => {
         // Clear the JWT token from cookies
         document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        
+        setModalTitle('Successfully Logged Out');
+        setModalMessage('You have been logged out successfully');
+        setShowLoading(true);
         // Redirect to the login page after logout
         navigate('/LoginForm');
     };
@@ -79,6 +87,12 @@ const Navbar = ({ setMovies }) => {
                             </li>
                         </ul>
                         <div>
+                        <SuccessModal
+                            show={showLoading}
+                            handleClose={handleCloseModal}
+                            title={modalTitle}
+                            message={modalMessage}
+                        />
                             {document.cookie.includes('token=') ? (
                                 <NavLink to="/LoginForm">
                                     <button onClick = {handleLogout} className="btn btn-success p-2 m-1">Logout</button>
