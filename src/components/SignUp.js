@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/LoginForm.css';
 
 const SignUp = () => {
-    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -12,8 +12,8 @@ const SignUp = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8089/auth/register', {
-                name,
+            const response = await axios.post('http://localhost:8089/api/auth/signup', {
+                username,
                 email,
                 password,
             });
@@ -42,8 +42,8 @@ const SignUp = () => {
                                                 type="text" 
                                                 placeholder="Name" 
                                                 className="form-control form-control-lg email bg-dark text-light"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)}
                                                 required
                                             />
                                         </div>

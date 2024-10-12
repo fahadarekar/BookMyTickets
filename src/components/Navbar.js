@@ -80,7 +80,7 @@ const Navbar = ({ setMovies }) => {
                         </ul>
                         <div>
                             {document.cookie.includes('token=') ? (
-                                <NavLink to="/logout">
+                                <NavLink to="/LoginForm">
                                     <button onClick = {handleLogout} className="btn btn-success p-2 m-1">Logout</button>
                                 </NavLink>
                             ) : (

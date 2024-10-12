@@ -8,16 +8,19 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8089/auth/signin', {
+            const response = await axios.post('http://localhost:8089/api/auth/signin', {
                 username: email, // Ensure this matches your JwtRequest structure
                 password,
             });
             console.log("res in line 18", response)
             // Store JWT token in cookies or localStorage
-            document.cookie = `token=${response.data.jwtToken}; path=/`;
+            document.cookie = `token=${response.data.token}; path=/`;
+            document.cookie = `userId=${response.data.userId}; path=/`
             navigate('/'); // Redirect to home after successful login
         } catch (error) {
             console.error('Login failed:', error);
