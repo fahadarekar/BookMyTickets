@@ -4,9 +4,42 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/LoginForm.css'
 import Navbar from './Navbar'
 
+
 const SignUp = () => {
+
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+    const navigate = useNavigate()
+
+    const handleRegister = async () => {
+        try {
+            const res = await axios.post(`http://localhost:8089/auth/register`, {
+                name,
+                email,
+                password
+            });
+            
+            console.log("res in line 19", res);
+            
+            if (res.status === 201) {
+                // Assuming you get a token or success response, you can redirect here
+                navigate('/home'); // Redirect to a dashboard or protected route after successful registration
+            }
+        } catch (error) {
+            console.error("Registration error:", error);
+        }
+    };
+    
+
+    const handleChangeEmail = (e) =>{setEmail(e.target.value)}
+    const handleChangeName = (e) =>{setName(e.target.value)}
+    const handleChangePassword = (e) =>{setPassword(e.target.value)}
+
     return (
         <>
+
+        
         
         <section className="vh-100 gradient-custom">
             <div className="container py-4">
@@ -21,30 +54,23 @@ const SignUp = () => {
                                     <p className="text-white-50 mb-3">Please enter your SignUp Details!</p>
 
                                     <div data-mdb-input-init className="form-outline mb-2">
-                                        <input type="email" id="typeFNameX" placeholder="Enter Your First Name" className="form-control form-control-lg email bg-dark text-light" />
+                                        <input onChange={handleChangeName} type="name" id="typeFNameX" placeholder="Enter Your Name" className="form-control form-control-lg email bg-dark text-light" />
 
                                     </div>
 
+                                    
+                                   
                                     <div data-mdb-input-init className="form-outline form-white mb-2">
-                                        <input type="text" id="typeLNamedX" placeholder="Enter Your Last Name" className="form-control form-control-lg email bg-dark text-light" />
+                                        <input onChange={handleChangeEmail} type="email" id="typeLNamedX" placeholder="Enter Your Email" className="form-control form-control-lg email bg-dark text-light" />
                                     </div>
                                     <div data-mdb-input-init className="form-outline form-white mb-2">
-
-                                        <input type="text" id="typeLNamedX" placeholder="Enter Your Mobile Number" className="form-control form-control-lg email bg-dark text-light" />
+                                        <input onChange={handleChangePassword} type="password" id="typeLNamedX" placeholder="Set Your Password" className="form-control form-control-lg email bg-dark text-light" />
                                     </div>
-                                    <div data-mdb-input-init className="form-outline form-white mb-2">
-                                        <input type="email" id="typeLNamedX" placeholder="Enter Your Email" className="form-control form-control-lg email bg-dark text-light" />
-                                    </div>
-                                    <div data-mdb-input-init className="form-outline form-white mb-2">
-                                        <input type="password" id="typeLNamedX" placeholder="Set Your Password" className="form-control form-control-lg email bg-dark text-light" />
-                                    </div>
-                                    <div data-mdb-input-init className="form-outline form-white mb-2">
-                                        <input type="password" id="typeLNamedX" placeholder="Confirm Your Password" className="form-control form-control-lg email bg-dark text-light" />
-                                    </div>
+                                 
 
                                     <p className="small mb-3"><a className="text-white-50" href="#!">Need Help?</a></p>
 
-                                    <button data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary btn-lg px-5" type="submit">SignUp</button>
+                                    <button onClick = {handleRegister} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary btn-lg px-5" type="submit">SignUp</button>
 
 
 

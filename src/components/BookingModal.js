@@ -1,6 +1,7 @@
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import '../styles/Booking.css';
+import CalendarComponent from './CalenderComponent';
 const BookingModal = () => {
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
@@ -33,11 +34,12 @@ const BookingModal = () => {
 
     };
 
+
     return (
         <div>
             <div className="booking-page ">
 
-
+                <CalendarComponent />
                 <div className="showtimes">
                     <h2>Select Showtime</h2>
                     <div className="showtime-buttons">
