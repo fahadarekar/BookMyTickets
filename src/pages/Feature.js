@@ -10,6 +10,7 @@ const Feature = ({ toggleWishlist, wishlist }) => { // Properly destructuring to
 
     const handleSearch = async () => {
         const fetchedMovie = await fetchMoviesID(searchID);
+        console.log("fetchedMovies", fetchedMovie)
         setMovie(fetchedMovie);
     };
 
