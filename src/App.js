@@ -9,6 +9,7 @@ import Book from './components/Book';
 import Footer from './components/Footer';
 import Feature from './pages/Feature';
 import Dashboard from './pages/Dashboard';
+import MyBooking from './components/MyBooking';
 
 const App = () => {
     const [movies, setMovies] = useState([]);
@@ -33,9 +34,10 @@ const App = () => {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/wishlist" element={<Wishlist wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
                 <Route path="/loginform" element={<LoginForm />} />
-                <Route path="/booking/:movieId" element={<Book />} /> {/* Updated route */}
+                <Route path="/booking/:movieId" element={<Book />} />
                 <Route path="/latest" element={<Feature toggleWishlist={toggleWishlist} wishlist={wishlist} />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/booking" element={<MyBooking />} />
             </Routes>
             <Footer />
         </>

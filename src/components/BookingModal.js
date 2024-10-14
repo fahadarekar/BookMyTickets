@@ -2,34 +2,20 @@ import React, { useEffect, useState } from 'react';
 import '../styles/Booking.css';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom'; 
-import { fetchMovies } from '../api';
 import moment from 'moment';
 import SuccessModal from './SuccessModal';
 
 const BookingModal = ({ movie }) => {
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(movie);
     const [showLoading, setShowLoading] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalMessage, setModalMessage] = useState('');   
 
-    console.log("moviesStep", movie, selectedMovie);
-
-    const convertToTimestamp = (time) => {
-        const today = new Date();
-        const [hours, minutes, period] = time.match(/(\d+):(\d+) (\w+)/).slice(1);
-        const hours24Format = period === 'PM' && hours !== '12' ? parseInt(hours) + 12 : parseInt(hours);
-        today.setHours(hours24Format, parseInt(minutes), 0, 0); 
-        return today.toISOString();
-    };
-    
     const showtimes = ['10:00 AM', '1:00 PM', '4:00 PM', '7:00 PM'];
-    const timestamps = showtimes.map(convertToTimestamp);
-    const totalSeats = 40;
 
-    const location = useLocation();
+    const totalSeats = 40;
 
     function getCookieValue(cookieName) {
         const name = cookieName + "=";
@@ -59,32 +45,40 @@ const BookingModal = ({ movie }) => {
         setShowLoading(false)
     }
 
-
     const handleShowtimeSelection = (showtime) => {
         setSelectedShowtime(showtime);
         setSelectedSeats([]);
     };
 
+    const convertToTimestamp = (time) => {
+        const today = new Date();
+        const [hours, minutes, period] = time.match(/(\d+):(\d+) (\w+)/).slice(1);
+        const hours24Format = period === 'PM' && hours !== '12' ? parseInt(hours) + 12 : parseInt(hours);
+        today.setHours(hours24Format, parseInt(minutes), 0, 0); 
+        return today.toISOString(); // Return ISO format
+    };
+
     const handleBooking = async () => {
-        console.log("line 62", selectedShowtime, selectedMovie);
         if (!selectedShowtime || selectedSeats.length === 0 || !selectedMovie) {
-            setModalTitle('Booking Successful');
+            setModalTitle('Booking Unsuccessful');
             setModalMessage('Show Time or Seat not selected');
             setShowLoading(true);
+            return; // Early return to prevent further processing
         }
-    
+
         const userId = getCookieValue('userId');
         const token = getCookieValue('token');
-    
-        console.log("movie_id line 59", userId);
-    
+
+        // Convert selected showtime to timestamp
+        const showtimeAsTimestamp = convertToTimestamp(selectedShowtime);
+
         try {
             const res1 = await axios.post(
                 "http://localhost:8089/booking/book",
                 {
                     userId: userId,
                     movie_id: selectedMovie.id,
-                    showTime: selectedShowtime,
+                    showTime: showtimeAsTimestamp, // Pass the timestamp
                     seatIds: selectedSeats,
                 },
                 {
@@ -96,20 +90,19 @@ const BookingModal = ({ movie }) => {
             if (res1.status === 200) {
                 setModalTitle('Booking Successful');
                 setModalMessage('Your booking has been confirmed successfully.');
-                setShowLoading(true);
             } else {
                 setModalTitle('Booking Unsuccessful');
                 setModalMessage('Your booking has failed for some reason.');
-                setShowLoading(true);
             }
         } catch (error) {
             console.error("Error during booking:", error);
             setModalTitle('Booking Unsuccessful');
             setModalMessage('Your booking has failed for some reason.');
-            setShowLoading(true);
+        } finally {
+            setShowLoading(true); // Ensure the modal shows regardless of success/failure
         }
     };
-    
+
     return (
         <div className="booking-page">
             {selectedMovie && (
@@ -130,13 +123,13 @@ const BookingModal = ({ movie }) => {
             <div className="showtimes">
                 <h2>Select Showtime</h2>
                 <div className="showtime-buttons">
-                    {timestamps.map((time, index) => (
+                    {showtimes.map((time, index) => (
                         <button
                             key={index}
                             className={`showtime-button ${selectedShowtime === time ? 'selected' : ''}`}
                             onClick={() => handleShowtimeSelection(time)}
                         >
-                            {moment(time, 'hh:mm A').format('hh:mm A')}
+                            {time}
                         </button>
                     ))}
                 </div>
