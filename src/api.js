@@ -1,26 +1,22 @@
 // src/api.js
 // http://www.omdbapi.com/?i=tt0100669&plot=full&r=xml
 
+import axios from "axios";
+
 // Fetch Movies function
 export const fetchMovies = async (title) => {
     const token = getCookieValue('token')
     console.log("token in line 7", token)
-    const response = await fetch(`http://localhost:8089/booking/movie`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`, // Add the Bearer token here
-            'Content-Type': 'application    /json',
-        },
-    });
-    const data = await response.json();
+    const response = await axios.get(`http://localhost:8089/api/auth/movie`);
+    const data = await response.data;
     console.log("data in line 16", data)
-    return data || []; // Return an array of movies
+    return data || [];
 };
 
 function getCookieValue(cookieName) {
     const name = cookieName + "=";
-    const decodedCookies = decodeURIComponent(document.cookie); // Decode in case there are special characters
-    const cookiesArray = decodedCookies.split(';'); // Split cookies into an array
+    const decodedCookies = decodeURIComponent(document.cookie);
+    const cookiesArray = decodedCookies.split(';');
 
     for (let cookie of cookiesArray) {
         cookie = cookie.trim(); // Remove any leading or trailing whitespace

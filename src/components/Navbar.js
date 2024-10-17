@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import SuccessModal from './SuccessModal';
+import axios from 'axios';
 
 const Navbar = ({ setMovies }) => {
     const [searchMovie, setSearchMovie] = useState('');
@@ -36,8 +37,8 @@ const Navbar = ({ setMovies }) => {
     }, [token]);
 
     const SearchMovie = async (title) => {
-        const response = await fetch(`http://localhost:8089/booking/movie`);
-        const data = await response.json();
+        const response = await axios.get(`http://localhost:8089/api/auth/movie`);
+        const data = response;
         setMovies(data.Search || []);
     };
 
